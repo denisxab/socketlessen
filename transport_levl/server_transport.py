@@ -1,6 +1,8 @@
 import socket
 from typing import Final, Union
 
+from datalink_levl.helpful import recv, send
+
 
 class TcpServer:
     EXIT: Final[str] = "!exit"
@@ -22,9 +24,6 @@ class TcpServer:
 
         count_listen: Сколько ожидаем подключений
         """
-
-        # Размер сообщения
-        self.SIZE_CONTENT = 1024
         # Настройка socket
         self.server_socket = socket.socket(family=type_net, type=socket.SOCK_STREAM)
         # Резервируем канал для прослушивания
@@ -60,13 +59,13 @@ class TcpServer:
                 if user.fileno() > -1:  # Если есть подключение
 
                     # GET
-                    stream: bytes = user.recv(self.SIZE_CONTENT)
+                    stream: bytes = recv(user)
                     stream_str: str = stream.decode("utf-8")
                     print(stream_str)
 
                     if self.is_connect(stream_str):
                         # SEND
-                        user.send("[+]".encode('utf-8'))
+                        send("[+]".encode('utf-8'), user)
                     else:
                         # Если клиент хочет разорвать соединение, то отключаемся от него
                         self.disconnect(user, client_address)
@@ -98,8 +97,6 @@ class UdpServer:
             - (Ip:str,Port:int)     = ip
             - UnixFile              = uds
         """
-        # Размер сообщения
-        self.SIZE_CONTENT = 1024
         # Настройка socket
         self.server_socket = socket.socket(family=type_net, type=socket.SOCK_DGRAM)
         # Резервируем канал для прослушивания

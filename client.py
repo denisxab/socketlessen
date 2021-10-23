@@ -1,6 +1,7 @@
 import socket
 
 from datalink_levl.client_datalink import _UdsClient, _Ip4Client
+from datalink_levl.helpful import send, recv, recvfrom
 from transport_levl.client_transport import UdpClient, TcpClient
 
 
@@ -53,10 +54,10 @@ class Ip4UdpClient(_Ip4Client, UdpClient):
                     raise socket.error
 
                 # SEND
-                self.client_socket.send(x.encode('utf-8'))
+                send(x.encode('utf-8'), self.client_socket)
 
                 # GET
-                stream, client_acres = self.client_socket.recvfrom(self.SIZE_CONTENT)
+                stream, client_acres = recvfrom(self.client_socket)
                 print(stream.decode("utf-8"))
 
             except (KeyboardInterrupt, socket.error) as e:
@@ -85,10 +86,10 @@ class UdsTcpClient(_UdsClient, TcpClient):
                     raise socket.error
 
                 # SEND
-                self.client_socket.send(x.encode('utf-8'))
+                send(x.encode('utf-8'), self.client_socket)
 
                 # GET
-                stream: bytes = self.client_socket.recv(self.SIZE_CONTENT)
+                stream: bytes = recv(self.client_socket)
                 stream_str: str = stream.decode("utf-8")
                 print(stream_str)
 
@@ -118,10 +119,10 @@ class Ip4TcpClient(_Ip4Client, TcpClient):
                     raise socket.error
 
                 # SEND
-                self.client_socket.send(x.encode('utf-8'))
+                send(x.encode('utf-8'), self.client_socket)
 
                 # GET
-                stream: bytes = self.client_socket.recv(self.SIZE_CONTENT)
+                stream: bytes = recv(self.client_socket)
                 stream_str: str = stream.decode("utf-8")
                 print(stream_str)
 
@@ -132,8 +133,8 @@ class Ip4TcpClient(_Ip4Client, TcpClient):
 
 
 if __name__ == '__main__':
-    # UdsTcpClient("./ech.socket").main_loop()
+    UdsTcpClient("./ech.socket").main_loop()
     # UdsUdpClient("./ech.socket").main_loop()
     #
     # Ip4TcpClient("127.0.0.1", 8919).main_loop()
-    Ip4UdpClient("127.0.0.1", 8919).main_loop()
+    # Ip4UdpClient("127.0.0.1", 8919).main_loop()

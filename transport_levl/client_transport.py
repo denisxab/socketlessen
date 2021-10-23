@@ -1,6 +1,8 @@
 import socket
 from typing import Final
 
+from datalink_levl.helpful import send
+
 
 class TcpClient:
     EXIT: Final[str] = "!exit"
@@ -12,13 +14,11 @@ class TcpClient:
             - socket.AF_INET = ipv4
             - socket.AF_INET6 = ipv6
         """
-        # Размер сообщения
-        self.SIZE_CONTENT = 1024
         # Настройка socket
         self.client_socket = socket.socket(family=type_net, type=socket.SOCK_STREAM)
 
     def disconnect(self):
-        self.client_socket.send(self.EXIT.encode("utf-8"))  # Уведомить сервер об отключении
+        send(self.EXIT.encode("utf-8"), self.client_socket)  # Уведомить сервер об отключении
         self.client_socket.close()
 
 
@@ -30,7 +30,5 @@ class UdpClient:
             - socket.AF_INET = ipv4
             - socket.AF_INET6 = ipv6
         """
-        # Размер сообщения
-        self.SIZE_CONTENT = 1024
         # Настройка socket
         self.client_socket = socket.socket(family=type_net, type=socket.SOCK_DGRAM)

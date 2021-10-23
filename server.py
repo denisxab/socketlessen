@@ -1,3 +1,4 @@
+from datalink_levl.helpful import recvfrom, sendto
 from datalink_levl.server_datalink import _UdsServer, _Ip4Server
 from transport_levl.server_transport import UdpServer, TcpServer
 
@@ -14,7 +15,7 @@ class UdsUdpServer(_UdsServer, UdpServer):
             try:
 
                 # GET
-                stream, client_acres = self.server_socket.recvfrom(self.SIZE_CONTENT)
+                stream, client_acres = self.server_socket.recvfrom(1024)  # !!!!
                 stream_str: str = stream.decode("utf-8")
                 print(stream_str)
 
@@ -39,12 +40,12 @@ class Ip4UdpServer(_Ip4Server, UdpServer):
             try:
 
                 # GET
-                stream, client_acres = self.server_socket.recvfrom(self.SIZE_CONTENT)
+                stream, client_acres = recvfrom(self.server_socket)
                 stream_str: str = stream.decode("utf-8")
                 print(stream_str)
 
                 # SEND
-                self.server_socket.sendto("[+]".encode("utf-8"), client_acres)
+                sendto("[+]".encode("utf-8"), self.server_socket, client_acres)
 
             except KeyboardInterrupt as e:
                 print(f"[close] {e}")
@@ -71,8 +72,8 @@ class Ip4TcpServer(_Ip4Server, TcpServer):
 
 
 if __name__ == '__main__':
-    # UdsTcpServer("./ech.socket").main_loop()
+    UdsTcpServer("./ech.socket").main_loop()
     # UdsUdpServer("./ech.socket").main_loop()
     #
     # Ip4TcpServer("127.0.0.1", 8919).main_loop()
-    Ip4UdpServer("127.0.0.1", 8919).main_loop()
+    # Ip4UdpServer("127.0.0.1", 8919).main_loop()
