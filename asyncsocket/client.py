@@ -1,4 +1,4 @@
-from asyncsocket.client_async import ClientIpAsync
+from asyncsocket.transport_levl.client_transport import ClientIpAsync
 from general_settings import port, host
 
 if __name__ == '__main__':
