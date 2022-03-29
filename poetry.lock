@@ -1,0 +1,18 @@
+[[package]]
+name = "logsmal"
+version = "0.0.7"
+description = "Создание файлов конфигураци"
+category = "main"
+optional = false
+python-versions = ">=3.10,<4.0"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.10"
+content-hash = "a291b35b0a792eaa4f0c0e3b6c9c789c2e2d699f21cdf7a5ccbfc9a35d5352c9"
+
+[metadata.files]
+logsmal = [
+    {file = "logsmal-0.0.7-py3-none-any.whl", hash = "sha256:3d44c8ef6d7d7c853a679bdac9fe9c82115f079165d373115a6cd49807d1871f"},
+    {file = "logsmal-0.0.7.tar.gz", hash = "sha256:f2dd1fe3498f5a01432f893c61e35e82239708e22c5aff2250c6bc550d1e485b"},
+]
